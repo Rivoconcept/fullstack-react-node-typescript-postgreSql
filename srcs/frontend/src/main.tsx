@@ -7,17 +7,19 @@ import { CardContextProvider } from "./context/cardGame/CardContext";
 import { CardGameContextProvider } from "./context/cardGame/CardGameContext";
 // import Fruit from "./Fruit";
 import CardScene from "./cardScenes/CardScene";
+import CoursWs from "./test";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     {/* <FruitProvider> */}
-      <CardContextProvider>
+      {/* <CardContextProvider>
         <CardGameContextProvider>
           <CardScene />
         </CardGameContextProvider>
-      </CardContextProvider>
+      </CardContextProvider> */}
       {/* <Fruit /> */}
       
     {/* </FruitProvider> */}
+    <CoursWs/>
   </React.StrictMode>
 );
