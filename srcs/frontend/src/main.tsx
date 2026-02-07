@@ -7,7 +7,7 @@ import { CardContextProvider } from "./context/cardGame/CardContext";
 import { CardGameContextProvider } from "./context/cardGame/CardGameContext";
 // import Fruit from "./Fruit";
 import CardScene from "./cardScenes/CardScene";
-import CoursWs from "./test";
+import CoursWs from "./CoursWs";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

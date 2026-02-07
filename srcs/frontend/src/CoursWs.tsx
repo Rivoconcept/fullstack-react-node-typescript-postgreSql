@@ -1,11 +1,23 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { div } from "three/tsl";
 
 const socket = io("http://localhost:3000");
 
 export default function CoursWs() {
   const [username, setUsername] = useState("");
   const [group, setGroup] = useState("JavaScript");
+  const [users, setUsers] = useState(([]));
+
+  useEffect(() => {
+    axios.get("http://localhost:3000")
+    .then(res => {
+      setUsers(res.data);
+    }).catch(e => {
+      console.log(e);
+    })
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,6 +30,7 @@ export default function CoursWs() {
   };
 
   return (
+    <>
     <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="username">Username</label>
@@ -31,7 +44,7 @@ export default function CoursWs() {
           required
         />
       </div>
-
+      
       <div className="form-group">
         <label htmlFor="group">Groupes</label>
         <select
@@ -47,11 +60,21 @@ export default function CoursWs() {
           <option value="Ruby">Ruby</option>
           <option value="Java">Java</option>
         </select>
-      </div>
+      </div> 
 
       <button className="btn btn-primary" type="submit">
         Joindre le groupe
       </button>
     </form>
+    <h1>List Users</h1>
+    {
+      users.map( user => (
+        <div> key={user.id}
+          <h1>{user.name}</h1>
+          <p>{user.age}</p>
+        </div>
+      ))
+    }
+  </>
   );
 }
