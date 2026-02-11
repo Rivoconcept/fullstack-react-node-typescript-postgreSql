@@ -4,43 +4,37 @@ import { Server } from "socket.io"
 import cors from "cors"
 
 const app = express()
-const server =  createServer(app)
-const io = new Server(server)
 
-const PORT = Number(process.env.PORT) || 3000;
+// CORS pour les routes HTTP (Express)
+app.use(cors({
+  origin: "http://localhost:5173",
+}))
+
+const server = createServer(app)
+
+// CORS pour WebSocket (Socket.IO)
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+  }
+})
+
+const PORT = Number(process.env.PORT) || 3000
 
 
 io.on("connection", (socket) => {
-  console.log("🟢 Nouveau client connecté :", socket.id);
+  console.log("Welcome into the group:", socket.id)
 
-  socket.on("join", (data) => {
-    console.log("Client rejoint :", data);
-
-    socket.join(data.group);
-
-    socket.to(data.group).emit("message", `${data.username} a rejoint le groupe`);
-  });
+  socket.on("message", (message) => {
+    socket.broadcast.emit("message", `User ${socket.id} : Un message est reçu : ${message}`)
+  })
 
   socket.on("disconnect", () => {
-    console.log("🔴 Client déconnecté :", socket.id);
-  });
-});
+    socket.broadcast.emit("message", `User ${socket.id} is connected`)
+  })
+})
 
-app.use(cors({
-    origin:"http://localhost:5173",
-}))
-
-app.get("/", (req, res) => {
-  res.json([{ 
-    id: 1,
-    name: "Rahclele",
-    age: 45,
-  },
-  {
-    id: 2,
-    name: "Rivo",
-    age: 40,
-  }])
-});
-
-app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
+server.listen(PORT, () =>
+  console.log(`Server running on port ${PORT}`)
+)

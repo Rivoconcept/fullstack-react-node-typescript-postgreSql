@@ -1,19 +1,19 @@
-import { useState } from "react";
+import { useAtom } from "jotai";
+import { Compteur } from "./Compteur";
+import { compteurAtom } from "./utils/Atoms";
+
 
 function Test() {
     // state (état, données internes au composant)
-    const [compteur, setCompteur] = useState(0);
+    const [count] = useAtom(compteurAtom);
 
     // comportements
-    const handleClick = () => {
-        setCompteur(compteur + 1);
-    }
 
     // affichage (render)
     return (
         <>
-            <div>{compteur}</div>
-            <button onClick={handleClick}>Increment</button>
+            <div>{count}</div>
+            <Compteur />
         </>
     )
 

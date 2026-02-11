@@ -1,80 +1,45 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { div } from "three/tsl";
 
-const socket = io("http://localhost:3000");
+import { io } from "socket.io-client"
+
+const socket = io("http://localhost:3000")
+
+socket.on("message", (msg) => console.log(msg))
+
+
 
 export default function CoursWs() {
-  const [username, setUsername] = useState("");
-  const [group, setGroup] = useState("JavaScript");
-  const [users, setUsers] = useState(([]));
 
-  useEffect(() => {
-    axios.get("http://localhost:3000")
-    .then(res => {
-      setUsers(res.data);
-    }).catch(e => {
-      console.log(e);
-    })
-  }, [])
+    const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    const handleSubmit = (e: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
+      e.preventDefault()
 
-    socket.emit("join", { username, group });
+      console.log(`envooi du message: ${message}`)
+      socket.emit("message", message)
 
-    socket.on("message", (msg) => {
-      console.log("Message reçu :", msg);
-    });
-  };
+      setMessage('')
+    }
 
   return (
     <>
-    <form onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          className="form-control"
-          id="username"
-          placeholder="Enter username..."
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
+      <div className="mb-3">
+        <h1 className="text-2xl text-primary">Hello les gens !</h1>
+        <form method="post" onSubmit={handleSubmit}>
+          <label htmlFor="message">Message</label>
+          <input  
+            type="text" 
+            id="message" 
+            className="form-control" 
+            name="message" 
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
         />
+          <button type="submit" className="btn btn-primary mt-4">Envoyer</button>
+        </form>
       </div>
-      
-      <div className="form-group">
-        <label htmlFor="group">Groupes</label>
-        <select
-          className="form-control"
-          id="group"
-          value={group}
-          onChange={(e) => setGroup(e.target.value)}
-        >
-          <option value="JavaScript">JavaScript</option>
-          <option value="Python">Python</option>
-          <option value="PHP">PHP</option>
-          <option value="C#">C#</option>
-          <option value="Ruby">Ruby</option>
-          <option value="Java">Java</option>
-        </select>
-      </div> 
 
-      <button className="btn btn-primary" type="submit">
-        Joindre le groupe
-      </button>
-    </form>
-    <h1>List Users</h1>
-    {
-      users.map( user => (
-        <div> key={user.id}
-          <h1>{user.name}</h1>
-          <p>{user.age}</p>
-        </div>
-      ))
-    }
-  </>
+    </>
   );
 }
