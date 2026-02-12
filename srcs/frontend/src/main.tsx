@@ -14,19 +14,19 @@ import DoubleCompteur from "./DoubleCompteur";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     {/* <FruitProvider> */}
-      {/* <CardContextProvider>
+      <CardContextProvider>
         <CardGameContextProvider>
           <CardScene />
         </CardGameContextProvider>
-      </CardContextProvider> */}
+      </CardContextProvider>
       {/* <Fruit /> */}
       
     {/* </FruitProvider> */}
-    <CoursWs/>
+    {/* <CoursWs/>
     <Test />
     <Suspense fallback={<p>Chargement utilisateur…</p>}>
       <DoubleCompteur />
-    </Suspense>
+    </Suspense> */}
 
   </React.StrictMode>
 );
