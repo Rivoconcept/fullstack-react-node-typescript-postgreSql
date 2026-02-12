@@ -1,5 +1,5 @@
 import { createContext, useContext, useRef, useState } from "react";
-import type { Fruit, FruitContextType } from "../typescript/FruitContextType";
+import type { Fruit, FruitContextType } from "./FruitContextType";
 
 /* =============== CONTEXT =============== */
 

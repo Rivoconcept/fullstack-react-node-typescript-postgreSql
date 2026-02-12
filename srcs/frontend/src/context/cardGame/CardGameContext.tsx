@@ -10,13 +10,12 @@ const TIME_LIMIT = 30;
 
 export function CardGameContextProvider({ children }: { children: React.ReactNode }) {
   const { drawAll, score, reset: resetCards } = useCardState();
-
   const [turn, setTurn] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(TIME_LIMIT);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
 
-  /* ================= TIMER GAME LOOP ================= */
+  /* ================= TIMER ================= */
   useEffect(() => {
     if (!isTimerRunning) return;
     if (timeLeft <= 0) {
@@ -24,20 +23,16 @@ export function CardGameContextProvider({ children }: { children: React.ReactNod
       return;
     }
 
-    const timer = setInterval(() => {
-      setTimeLeft(t => t - 1);
-    }, 1000);
-
+    const timer = setInterval(() => setTimeLeft(t => t - 1), 1000);
     return () => clearInterval(timer);
   }, [isTimerRunning, timeLeft]);
 
-  /* ================= GAMEPLAY ================= */
-
+  /* ================= GAME ================= */
   const playTurn = () => {
     if (turn >= MAX_TURNS || timeLeft <= 0) return;
-    drawAll();
-    setTurn(t => t + 1);
-    setIsTimerRunning(true); // démarre le timer au premier tour
+    drawAll();               // tirage cartes
+    setTurn(t => t + 1);     // incrément tour
+    setIsTimerRunning(true);  // démarre le timer au premier tour
   };
 
   useEffect(() => {
