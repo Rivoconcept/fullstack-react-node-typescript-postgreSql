@@ -1,6 +1,9 @@
 import { createServer } from "http"
 import app from "./app.js"
 import { initSocket } from "./websocket/index.js"
+import dotenv from "dotenv"
+
+dotenv.config();
 
 const PORT = Number(process.env.PORT) || 3000
 

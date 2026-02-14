@@ -5540,8 +5540,8 @@ packages:
     resolution: {integrity: sha512-V/yCWTTF7VJ9hIh18Ugr2zhJMP01MY7c5kh4J870L7imm6/DIzBsNLTXzMwUA3yZ5b/KBqLx8Kp3uRvd7xSe3Q==}
     engines: {node: '>=0.6'}
 
-  qs@6.5.4:
-    resolution: {integrity: sha512-0BeLMIVqP5aQ+8izCO5KjIAuwHx4FwA4MtZzA+Q6TqS4Bu+E/TzHArugK5XqzaFmoBugtLH5S/w7pGPxnJfhtQ==}
+  qs@6.5.5:
+    resolution: {integrity: sha512-mzR4sElr1bfCaPJe7m8ilJ6ZXdDaGoObcYR0ZHSsktM/Lt21MVHj5De30GQH2eiZ1qGRTO7LCAzQsUeXTNexWQ==}
     engines: {node: '>=0.6'}
 
   querystring-es3@0.2.1:
@@ -8652,7 +8652,9 @@ snapshots:
       source-map: 0.6.1
       string-length: 2.0.0
     transitivePeerDependencies:
+      - bufferutil
       - supports-color
+      - utf-8-validate
 
   '@jest/source-map@24.9.0':
     dependencies:
@@ -14025,7 +14027,7 @@ snapshots:
     dependencies:
       side-channel: 1.1.0
 
-  qs@6.5.4: {}
+  qs@6.5.5: {}
 
   querystring-es3@0.2.1: {}
 
@@ -14468,7 +14470,7 @@ snapshots:
       mime-types: 2.1.35
       oauth-sign: 0.9.0
       performance-now: 2.1.0
-      qs: 6.5.4
+      qs: 6.5.5
       safe-buffer: 5.2.1
       tough-cookie: 2.5.0
       tunnel-agent: 0.6.0
