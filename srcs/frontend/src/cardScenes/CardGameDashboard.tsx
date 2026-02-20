@@ -1,18 +1,14 @@
-// /home/rhanitra/Documents/DEV/transcendence/ft_transcendence/srcs/frontend/src/cardScenes/CardGameDashboard.tsx
+// /home/rhanitra/GITHUB/transcendence/ft_transcendence/srcs/frontend/src/cardScenes/CardScene.tsx
 
 import { useEffect, useState } from "react";
 import PhaseButton from "../components/ui/PhaseButton";
-import { useCardState } from "../cardGamecontext/CardContext";
-import { useCardGameState } from "../cardGamecontext/CardGameContext";
+import { useCardState } from "../context/cardGame/CardContext";
+import { useCardGameState } from "../context/cardGame/CardGameContext";
+// import { ProgressBar } from "../components/cards/ProgressBarScore";
 import ProgressCircleTimer from "../components/cards/ProgressCircleTimer";
 import { ProgressBar } from "../components/cards/ProgressBarScore";
 import ScoreList from "../components/cards/ScoreList";
-import { useAtom, useAtomValue } from "jotai";
-import { isWinAtom, scoreAtom, userIdAtom } from "../state/CardGameAtoms";
-import { useCardGameSubmit } from "../hook/useCardGameSubmit";
-
-
-type Phase = "BEGIN" | "SHUFFLE" | "PLAY";
+import { Phase } from "../types/card";
 
 interface CardGameDashboardProps {
   phase: Phase;
@@ -20,65 +16,35 @@ interface CardGameDashboardProps {
 }
 
 export default function CardGameDashboard({ phase, setPhase }: CardGameDashboardProps) {
-  const { reset } = useCardState();
-  const [score, setScore] = useAtom(scoreAtom);
-  const [isWin, setIsWin] = useAtom(isWinAtom);
-  const [userId, setUserId] = useAtom(userIdAtom);
-  const { submitGameResult } = useCardGameSubmit();
-
-  const { playTurn, isWin: isWinFromContext, isLose, turn } = useCardGameState();
+  const { score, reset } = useCardState();
+  const { playTurn, isWin, isLose, turn } = useCardGameState();
   const [scores, setScores] = useState<number[]>([]);
-  const [isWins, setIsWins] = useState<number[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
- 
+
   const onButtonClick = () => {
-    if (phase === "BEGIN") {
-      setPhase("SHUFFLE");
+    if (phase === Phase.BEGIN) {
+      setPhase(Phase.SHUFFLE);
 
     } else if (phase === "SHUFFLE") {
       playTurn();      // 👈 IMPORTANT
-      setPhase("PLAY");
+      setPhase(Phase.PLAY);
 
     } else if (phase === "PLAY") {
-      // Mettre à jour isWin avant de soumettre
-      setIsWin(isWinFromContext);
       reset();         // reset cards
-      setPhase("BEGIN");
-      
-      // Soumettre le résultat au backend
-      handleGameEnd();
-    }
-  };
-
-  const handleGameEnd = async () => {
-    if (!userId) {
-      console.warn('User ID not set, cannot submit game result');
-      return;
-    }
-
-    setIsSubmitting(true);
-    try {
-      await submitGameResult();
-      console.log('Game result submitted successfully');
-    } catch (error) {
-      console.error('Failed to submit game result:', error);
-    } finally {
-      setIsSubmitting(false);
+      setPhase(Phase.BEGIN);
     }
   };
 
   useEffect(() => {
     if (score !== null) {
       setScores(prev => [...prev, score]);
-      setIsWins(prev => [...prev, isWinFromContext ? 1 : 0]);
     }
-  }, [score, isWinFromContext]);
+  }, [score]);
 
   const totalScore = scores.reduce((sum, s) => sum + s, 0);
 
   return (
     <>
-       <div className="dashboard">
+        <div className="dashboard">
           <div className="card-group">
             <div className="card border-0 bg-black text-light">
               <div className="card-body">
@@ -122,9 +88,8 @@ export default function CardGameDashboard({ phase, setPhase }: CardGameDashboard
             <div className="card border-0 bg-black text-light">
 
               <div className="card-body">
-                {isWinFromContext && <><h2 className="win">🎉 </h2> <h2 className="win">You Win!</h2></>}
-                {isLose && !isWinFromContext && <> <span className="lose">💀</span> <span className="lose">You lose!</span></>}
-                {isSubmitting && <p className="submitting">Sauvegarde en cours...</p>}
+                {isWin && <><h2 className="win">🎉 </h2> <h2 className="win">You Win!</h2></>}
+                {isLose && !isWin && <> <span className="lose">💀</span> <span className="lose">You lose!</span></>}
               </div>
             </div>
           </div>
@@ -136,6 +101,7 @@ export default function CardGameDashboard({ phase, setPhase }: CardGameDashboard
             <PhaseButton phase={phase} onClick={onButtonClick} />
           </div>
         </div>
+
     </>
   );
 

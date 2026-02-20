@@ -1,4 +1,4 @@
-import { useCardGameState } from "../../cardGamecontext/CardGameContext";
+import { useCardGameState } from "../../context/cardGame/CardGameContext";
 
 type Props = {
   size?: number;
