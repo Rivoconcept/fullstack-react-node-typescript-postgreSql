@@ -1,4 +1,4 @@
-import { Phase } from "../../types/card";
+import { Phase } from "../typescript/cardPhase";
 
 type Props = {
   phase: Phase;

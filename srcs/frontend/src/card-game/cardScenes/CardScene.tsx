@@ -2,12 +2,13 @@
 
 import { Canvas } from "@react-three/fiber";
 import { useState } from "react";
-import ShuffleCard from "../components/cards/ShuffleCard";
-import RevealCard from "../components/cards/RevealCard";
+import ShuffleCard from "../components/ShuffleCard";
+import RevealCard from "../components/RevealCard";
 import BackCard from "./CardBack";
-import { useCardState } from "../context/cardGame/CardContext";
+
 import CardGameDashboard from "./CardGameDashboard";
-import { Phase } from "../types/card";
+import { Phase } from "../typescript/cardPhase";
+import { useCardState } from "../context/CardContext";
 
 export default function CardScene() {
   const [phase, setPhase] = useState<Phase>(Phase.BEGIN);

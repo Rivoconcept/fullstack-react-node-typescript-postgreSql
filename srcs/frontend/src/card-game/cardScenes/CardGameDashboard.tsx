@@ -1,14 +1,14 @@
 // /home/rhanitra/GITHUB/transcendence/ft_transcendence/srcs/frontend/src/cardScenes/CardScene.tsx
 
 import { useEffect, useState } from "react";
-import PhaseButton from "../components/ui/PhaseButton";
-import { useCardState } from "../context/cardGame/CardContext";
-import { useCardGameState } from "../context/cardGame/CardGameContext";
+import PhaseButton from "../components/PhaseButton";
+import { useCardState } from "../context/CardContext";
+import { useCardGameState } from "../context/CardGameContext";
 // import { ProgressBar } from "../components/cards/ProgressBarScore";
-import ProgressCircleTimer from "../components/cards/ProgressCircleTimer";
-import { ProgressBar } from "../components/cards/ProgressBarScore";
-import ScoreList from "../components/cards/ScoreList";
-import { Phase } from "../types/card";
+import ProgressCircleTimer from "../components/ProgressCircleTimer";
+import { ProgressBar } from "../components/ProgressBarScore";
+import ScoreList from "../components/ScoreList";
+import { Phase } from "../typescript/cardPhase";
 
 interface CardGameDashboardProps {
   phase: Phase;
